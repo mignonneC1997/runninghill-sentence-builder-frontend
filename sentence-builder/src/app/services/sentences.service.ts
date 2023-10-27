@@ -47,4 +47,15 @@ export class SentencesService {
       );
   }
 
+  public submitSentence = (sentence: any): Observable<any> => {
+    return this.httpClient.post<any>(environment.apiUrl + '/sentences',
+      { params: sentence, observe: 'response' }).pipe(
+        map((response: HttpResponse<any>) => {
+          return response;
+        }), catchError((error: HttpErrorResponse) => {
+          return throwError(() => error);
+        })
+      );
+  }
+
 }

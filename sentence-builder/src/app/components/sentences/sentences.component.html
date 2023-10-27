@@ -29,6 +29,27 @@
       </select>
     </div>
     
-  
+    <div class="row">
+      <div class="col-md-6">
+        <button (click)="addToSentence()" [disabled]="!selectedWordType || !selectedWord" class="btn add-btn">Add to Sentence</button>
+      </div>
+      <div class="col-md-6">
+        <button (click)="clearSentence()" [disabled]="!sentence" class="btn clear-btn">Clear Sentence</button>
+      </div>
+    </div>
   </form>
-    
+
+
+<!-- NEW SENTENCE -->
+<div class="submitted-sentences pt-4 mb-4">
+    <h5 class="text-center pb-4">Sentence Preview</h5>
+    <div class="sentence-display text-start pt-2">
+      <p [hidden]="sentence">No words chosen</p>
+      <p><span [hidden]="!sentence" class="sentence-item">{{ sentence }}</span></p>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <button (click)="submitSentence()" [disabled]="!sentence" class="btn submit-btn">Submit Sentence</button>
+      </div>
+    </div>
+  </div>

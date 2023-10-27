@@ -75,6 +75,28 @@ export class SentencesComponent implements OnInit {
     this.selectedWord = this.wordForm.get('word')?.value;
   }
 
+  public addToSentence = () => {
+    const selectedWord = this.wordForm.get('word')?.value;
+
+    if (selectedWord) {
+      // Append the selected word to the sentence with a space
+      this.sentence += selectedWord + ' ';
+      
+      // Clear the selected word from the form
+      this.wordForm.get('word')?.setValue('');
+    }
+  }
+
+  public submitSentence = () => {
+    this.subscription = this.sentenceService.submitSentence(this.sentence).subscribe(
+      (response) => {
+        this.loadSubmittedSentences();
+      },
+      (error) => {
+      }
+    );
+  }
+
   public clearSentence = () => {
     this.sentence = '';   
     this.wordForm.get('word')?.setValue('');

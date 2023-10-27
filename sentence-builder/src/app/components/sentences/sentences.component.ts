@@ -26,6 +26,7 @@ export class SentencesComponent implements OnInit {
   ngOnInit(): void {
     this.buildForm();
     this.loadWordTypes();
+    this.loadSubmittedSentences();
   }
 
   buildForm() {
@@ -40,6 +41,20 @@ export class SentencesComponent implements OnInit {
       next: (response) => {
         console.log(response);
         this.wordTypes = response.body.response
+      },
+      error: (err: ErrorEvent) => {
+      },
+      complete: () => {
+        return;
+      }
+    });
+  }
+
+  public loadSubmittedSentences = () => {
+    this.sentenceService.getSubmittedSentences().subscribe({
+      next: (response) => {
+        console.log(response);
+        this.submittedSentences = response.body.response
       },
       error: (err: ErrorEvent) => {
       },

@@ -22,4 +22,15 @@ export class SentencesService {
       );
   }
 
+  public getSubmittedSentences = (): Observable<any> => {
+    return this.httpClient.get<any>(environment.apiUrl + '/sentences',
+    { observe: 'response' }).pipe(
+        map((response: HttpResponse<any>) => {
+          return response;
+        }), catchError((error: HttpErrorResponse) => {
+          return throwError(() => error);
+        })
+      );
+  }
+
 }

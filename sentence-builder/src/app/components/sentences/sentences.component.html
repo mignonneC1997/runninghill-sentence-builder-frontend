@@ -1,1 +1,13 @@
-<p>sentences works!</p>
+
+<!-- PREVIOUS SENTENCES -->
+<div class="submitted-sentences pt-4">
+    <h5 class="text-center pb-4">Previously Submitted Sentences</h5>
+    <p *ngIf="!submittedSentences">No submitted sentences</p>
+    <ul *ngIf="submittedSentences" class="sentences-list" [ngClass]="{'scrollable-list': submittedSentences.length > 4}">
+      <li *ngFor="let sentence of submittedSentences" class="sentence-item">
+        {{ sentence.word }}
+      </li>
+    </ul>
+  </div>
+  
+  <!-- BUILD NEW SENTENCES -->

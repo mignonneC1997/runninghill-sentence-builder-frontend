@@ -39,8 +39,7 @@ export class SentencesComponent implements OnInit {
   public loadWordTypes = () => {
     this.sentenceService.getWordTypes().subscribe({
       next: (response) => {
-        console.log(response);
-        this.wordTypes = response.body.response
+        this.wordTypes = response.body.recordset
       },
       error: (err: ErrorEvent) => {
       },
@@ -53,8 +52,7 @@ export class SentencesComponent implements OnInit {
   public loadSubmittedSentences = () => {
     this.sentenceService.getSubmittedSentences().subscribe({
       next: (response) => {
-        console.log(response);
-        this.submittedSentences = response.body.response
+        this.submittedSentences = response.body.recordset
       },
       error: (err: ErrorEvent) => {
       },

@@ -1,0 +1,141 @@
+.submitted-sentences {
+    margin-top: 2em;
+    text-align: center;
+    background-color: #3AAFA8;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  h5 {
+    font-family: 'Arial';
+    color: #17242A;
+    font-weight: 600;
+  }
+
+  li {
+    font-family: 'Arial'
+  }
+
+  p {
+    font-family: 'Arial';
+    text-align: center;
+    color: #F6FEFE;
+  }
+
+  span {
+    color: #17242A;
+  }
+
+  label {
+    font-family: 'Arial';
+    color: #fff;
+  }
+  
+  .sentences-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .sentence-item {
+    font-size: 10px;
+    margin: 10px 0;
+    background-color: #F6FEFE;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease;
+  }
+  
+  .sentence-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .word-form {
+    margin-top: 2em;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    background-color: #3AAFA8;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .form-label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .select-box {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .btn {
+    display: block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #2C7A77;
+    color: #DEF2F2;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .btn:disabled {
+    background-color: #2b7a78;
+    cursor: not-allowed;
+  }
+  
+  .add-btn {
+    background-color: #1c4a48;
+  }
+  
+  .add-btn:hover {
+    color: #1c4a48;
+    background-color: #DEF2F2
+  }
+
+  .clear-btn {
+    background-color: #1c4a48;
+  }
+  
+  .clear-btn:hover {
+    color: #1c4a48;
+    background-color: #DEF2F2
+  }
+  
+  .submit-btn {
+    background-color: #1c4a48;
+  }
+  
+  .submit-btn:hover {
+    color: #1c4a48;
+    background-color: #DEF2F2
+  }
+  
+  .scrollable-list {
+    max-height: 160px; /* Adjust the max height to your preference */
+    overflow-y: auto;
+  }
+
+  /* Style the scrollbar track */
+.scrollable-list::-webkit-scrollbar {
+  width: 10px; /* Adjust the width as needed */
+}
+
+/* Style the scrollbar thumb */
+.scrollable-list::-webkit-scrollbar-thumb {
+  background: rgb(113, 112, 112)FA8; /* Change the background color as desired */
+  border-radius: 5px; /* Adjust the border radius for rounded corners */
+}
+

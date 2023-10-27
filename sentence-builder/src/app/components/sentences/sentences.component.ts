@@ -11,9 +11,9 @@ import { SentencesService } from '../../services/sentences.service';
 })
 export class SentencesComponent implements OnInit {
   private destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
-  public subscription: Subscription | undefined;
+  public subscription!: Subscription;
   public wordTypes: any = null;
-  public wordForm: FormGroup | undefined;
+  public wordForm!: FormGroup;
   public selectedWordType = '';
   public selectedWord  = '';
   public submittedSentences: any = [];
@@ -39,7 +39,7 @@ export class SentencesComponent implements OnInit {
   public loadWordTypes = () => {
     this.sentenceService.getWordTypes().subscribe({
       next: (response) => {
-        this.wordTypes = response.body.recordset
+        this.wordTypes = response.body.response
       },
       error: (err: ErrorEvent) => {
       },
@@ -60,5 +60,30 @@ export class SentencesComponent implements OnInit {
         return;
       }
     });
+  }
+
+  public selectWordType = () => {
+    this.selectedWordType = this.wordForm.get('wordType')?.value;
+    if (this.selectedWordType) {
+      this.subscription = this.sentenceService.getWordsByWordType(this.selectedWordType).subscribe((words: any) => {
+        this.wordList = words.body.recordset;
+      });
+    }
+  }
+
+  public selectWord = (): void => {
+    this.selectedWord = this.wordForm.get('word')?.value;
+  }
+
+  public clearSentence = () => {
+    this.sentence = '';   
+    this.wordForm.get('word')?.setValue('');
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe from the observable to prevent memory leaks
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

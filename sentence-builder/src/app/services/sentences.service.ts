@@ -33,4 +33,18 @@ export class SentencesService {
       );
   }
 
+  public getWordsByWordType = (data: any): Observable<any> => {
+    const type = {
+      type: data
+    }
+    return this.httpClient.get<any>(environment.apiUrl + '/getByWordType',
+    { params: type, observe: 'response' }).pipe(
+        map((response: HttpResponse<any>) => {
+          return response;
+        }), catchError((error: HttpErrorResponse) => {
+          return throwError(() => error);
+        })
+      );
+  }
+
 }

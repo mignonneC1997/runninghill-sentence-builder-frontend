@@ -10,4 +10,25 @@
     </ul>
   </div>
   
-  <!-- BUILD NEW SENTENCES -->
+<!-- BUILD NEW SENTENCES -->
+<form [formGroup]="wordForm" class="word-form">
+    <h5 class="text-center pb-4">Build a sentence below by choosing words from the dropdown</h5>
+    <div class="form-group">
+      <label for="wordType" class="form-label">Select a Word Type</label>
+      <select id="wordType" formControlName="wordType" (change)="selectWordType()" class="select-box">
+        <option value="" disabled style="font-family: 'Arial'">Select a Word Type</option>
+        <option *ngFor="let type of wordTypes" [value]="type.word">{{ type.word }}</option>
+      </select>
+    </div>
+  
+    <div class="form-group" *ngIf="selectedWordType">
+      <label for="word" class="form-label">Choose a Word</label>
+      <select id="word" formControlName="word" (change)="selectWord()" class="select-box">
+        <option value="" disabled style="font-family: 'Arial'">Select a Word</option>
+        <option *ngFor="let item of wordList" [value]="item.word">{{ item.word }}</option>
+      </select>
+    </div>
+    
+  
+  </form>
+    

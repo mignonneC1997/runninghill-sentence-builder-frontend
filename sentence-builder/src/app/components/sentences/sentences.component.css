@@ -1,3 +1,7 @@
+.homePage {
+    background-color: #F0EFEA;
+}
+
 .submitted-sentences {
     margin-top: 2em;
     text-align: center;
@@ -8,53 +12,55 @@
     max-width: 400px;
     margin-left: auto;
     margin-right: auto;
-  }
+}
 
-  h5 {
+h5 {
     font-family: 'Arial';
     color: #17242A;
     font-weight: 600;
-  }
+}
 
-  li {
-    font-family: 'Arial'
-  }
+li {
+    font-family: 'Arial';
+}
 
-  p {
+p {
     font-family: 'Arial';
     text-align: center;
     color: #F6FEFE;
-  }
+    font-size: 15px;
+}
 
-  span {
+span {
     color: #17242A;
-  }
+}
 
-  label {
+label {
     font-family: 'Arial';
     color: #fff;
-  }
-  
-  .sentences-list {
+    font-size: 15px;
+}
+
+.sentences-list {
     list-style-type: none;
     padding: 0;
-  }
-  
-  .sentence-item {
-    font-size: 10px;
+}
+
+.sentence-item {
+    font-size: 12px;
     margin: 10px 0;
     background-color: #F6FEFE;
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     transition: background-color 0.2s ease;
-  }
-  
-  .sentence-item:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .word-form {
+}
+
+.sentence-item:hover {
+    background-color: #cdd8d8;
+}
+
+.word-form {
     margin-top: 2em;
     max-width: 400px;
     margin-left: auto;
@@ -63,23 +69,23 @@
     background-color: #3AAFA8;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  .form-label {
-    font-size: 16px;
+}
+
+.form-label {
+    font-size: 15px;
     margin-bottom: 5px;
     display: block;
-  }
-  
-  .select-box {
+}
+
+.select-box {
     width: 100%;
     padding: 10px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 5px;
-  }
-  
-  .btn {
+}
+
+.btn {
     display: block;
     margin-top: 10px;
     padding: 10px 15px;
@@ -89,53 +95,45 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s ease;
-  }
-  
-  .btn:disabled {
+}
+
+.btn:disabled {
     background-color: #2b7a78;
     cursor: not-allowed;
-  }
-  
-  .add-btn {
-    background-color: #1c4a48;
-  }
-  
-  .add-btn:hover {
-    color: #1c4a48;
-    background-color: #DEF2F2
-  }
+}
 
-  .clear-btn {
+.add-btn {
     background-color: #1c4a48;
-  }
-  
-  .clear-btn:hover {
+}
+
+.add-btn:hover {
     color: #1c4a48;
     background-color: #DEF2F2
-  }
-  
-  .submit-btn {
+}
+
+.clear-btn {
     background-color: #1c4a48;
-  }
-  
-  .submit-btn:hover {
+}
+
+.clear-btn:hover {
     color: #1c4a48;
     background-color: #DEF2F2
-  }
-  
-  .scrollable-list {
-    max-height: 160px; /* Adjust the max height to your preference */
+}
+
+.submit-btn {
+    background-color: #1c4a48;
+}
+
+.submit-btn:hover {
+    color: #1c4a48;
+    background-color: #DEF2F2
+}
+
+.scrollable-list {
+    max-height: 160px;
     overflow-y: auto;
-  }
+}
 
-  /* Style the scrollbar track */
 .scrollable-list::-webkit-scrollbar {
-  width: 10px; /* Adjust the width as needed */
+    width: 10px;
 }
-
-/* Style the scrollbar thumb */
-.scrollable-list::-webkit-scrollbar-thumb {
-  background: rgb(113, 112, 112)FA8; /* Change the background color as desired */
-  border-radius: 5px; /* Adjust the border radius for rounded corners */
-}
-

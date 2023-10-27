@@ -11,4 +11,15 @@ export class SentencesService {
 
   constructor(private httpClient: HttpClient) {}
 
+  public getWordTypes = (): Observable<any> => {
+    return this.httpClient.get<any>(environment.apiUrl + '/wordTypes',
+    { observe: 'response' }).pipe(
+        map((response: HttpResponse<any>) => {
+          return response;
+        }), catchError((error: HttpErrorResponse) => {
+          return throwError(() => error);
+        })
+      );
+  }
+
 }

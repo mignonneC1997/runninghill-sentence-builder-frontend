@@ -24,5 +24,28 @@ export class SentencesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.buildForm();
+    this.loadWordTypes();
+  }
+
+  buildForm() {
+    this.wordForm = this.fb.group({
+      wordType: ['', Validators.required],
+      word: [ '', Validators.required],
+    });
+  }
+
+  public loadWordTypes = () => {
+    this.sentenceService.getWordTypes().subscribe({
+      next: (response) => {
+        console.log(response);
+        this.wordTypes = response.body.response
+      },
+      error: (err: ErrorEvent) => {
+      },
+      complete: () => {
+        return;
+      }
+    });
   }
 }

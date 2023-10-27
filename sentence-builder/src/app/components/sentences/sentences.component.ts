@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { ReplaySubject, Subscription, takeUntil } from 'rxjs';
 import { ToasterService } from 'src/app/services/toaster.service';
 import { SentencesService } from '../../services/sentences.service';
 
@@ -10,7 +10,7 @@ import { SentencesService } from '../../services/sentences.service';
   styleUrls: ['./sentences.component.css']
 })
 export class SentencesComponent implements OnInit {
-
+  private destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
   public subscription: Subscription | undefined;
   public wordTypes: any = null;
   public wordForm: FormGroup | undefined;
@@ -24,27 +24,5 @@ export class SentencesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.buildForm();
-    this.loadWordTypes();
   }
-
-  buildForm() {
-    this.wordForm = this.fb.group({
-      wordType: ['', Validators.required],
-      word: [ '', Validators.required],
-    });
-  }
-
-  public loadWordTypes = () => {
-    this.subscription = this.sentenceService.getWordTypes().subscribe(
-      (sentences: any) => {
-        this.wordTypes = sentences.recordset;
-      },
-      (error) => {
-        this.toastr.showError('Could not load sentences. ');
-      }
-    );
-  }
-
-
 }

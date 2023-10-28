@@ -37,47 +37,59 @@ export class SentencesComponent implements OnInit, OnDestroy {
   }
 
   public loadWordTypes = () => {
-    this.sentenceService.getWordTypes().pipe(takeUntil(this.destroy$)).subscribe({
-      next: (response) => {
-        this.wordTypes = response.body.response
-      },
-      error: (err: ErrorEvent) => {
-        this.toastr.showError('Could not load word types ');
-      },
-      complete: () => {
-        return;
-      }
-    });
-  }
-
-  public loadSubmittedSentences = () => {
-    this.sentenceService.getSubmittedSentences().pipe(takeUntil(this.destroy$)).subscribe({
-      next: (response) => {
-        this.submittedSentences = response.body.recordset
-      },
-      error: (err: ErrorEvent) => {
-        this.toastr.showError('Could not load submitted sentences');
-      },
-      complete: () => {
-        return;
-      }
-    });
-  }
-
-  public selectWordType = () => {
-    this.selectedWordType = this.wordForm.get('wordType')?.value;
-    if (this.selectedWordType) {
-      this.sentenceService.getWordsByWordType(this.selectedWordType).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (words: any) => {
-          this.wordList = words.body.recordset;
+    try {
+      this.sentenceService.getWordTypes().pipe(takeUntil(this.destroy$)).subscribe({
+        next: (response) => {
+          this.wordTypes = response.body.response
         },
         error: (err: ErrorEvent) => {
-          this.toastr.showError('Could not load word types');
+          this.toastr.showError('Could not load word types ');
         },
         complete: () => {
           return;
         }
       });
+    } catch (error: any) {
+      console.log("Major, Error loadWordTypes === ", error.message)
+    }
+  }
+
+  public loadSubmittedSentences = () => {
+    try {
+      this.sentenceService.getSubmittedSentences().pipe(takeUntil(this.destroy$)).subscribe({
+        next: (response) => {
+          this.submittedSentences = response.body.recordset
+        },
+        error: (err: ErrorEvent) => {
+          this.toastr.showError('Could not load submitted sentences');
+        },
+        complete: () => {
+          return;
+        }
+      });
+    } catch (error: any) {
+      console.log("Major, Error loadSubmittedSentences === ", error.message)
+    }
+  }
+
+  public selectWordType = () => {
+    try {
+      this.selectedWordType = this.wordForm.get('wordType')?.value;
+      if (this.selectedWordType) {
+        this.sentenceService.getWordsByWordType(this.selectedWordType).pipe(takeUntil(this.destroy$)).subscribe({
+          next: (words: any) => {
+            this.wordList = words.body.recordset;
+          },
+          error: (err: ErrorEvent) => {
+            this.toastr.showError('Could not load word types');
+          },
+          complete: () => {
+            return;
+          }
+        });
+      }
+    } catch (error: any) {
+      console.log("Major, Error selectWordType === ", error.message)
     }
   }
 
@@ -98,20 +110,24 @@ export class SentencesComponent implements OnInit, OnDestroy {
   }
 
   public submitSentence = () => {
-    this.sentenceService.submitSentence(this.sentence).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (response: any) => {
-        this.toastr.showSuccess('Successfully saved new sentence');
-        this.sentence = '';   
-        this.wordForm.get('word')?.setValue('');
-        this.loadSubmittedSentences();
-      },
-      error: (err: ErrorEvent) => {
-        this.toastr.showError('Could not submit new sentences');
-      },
-      complete: () => {
-        return;
-      }
-    });
+    try {
+      this.sentenceService.submitSentence(this.sentence).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (response: any) => {
+          this.toastr.showSuccess('Successfully saved new sentence');
+          this.sentence = '';   
+          this.wordForm.get('word')?.setValue('');
+          this.loadSubmittedSentences();
+        },
+        error: (err: ErrorEvent) => {
+          this.toastr.showError('Could not submit new sentences');
+        },
+        complete: () => {
+          return;
+        }
+      });
+    } catch (error: any) {
+      console.log("Major, Error submitSentence === ", error.message)
+    }
   }
 
   public clearSentence = () => {

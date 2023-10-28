@@ -6,6 +6,6 @@ export const environment = {
   logging: {
     level: NgxLoggerLevel.DEBUG,
     serverLogLevel: NgxLoggerLevel.ERROR,
-    serverLoggingUrl: 'http://localhost:5519/'
+    serverLoggingUrl: 'http://localhost:5519/frontendLogs'
   }
 };

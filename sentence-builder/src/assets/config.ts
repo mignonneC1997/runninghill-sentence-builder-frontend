@@ -1,0 +1,1 @@
+export const responsetimeout = 60000;

@@ -1,0 +1,172 @@
+h5 {
+    font-family: 'Arial';
+    color: #F6FEFE;
+    font-weight: 600;
+}
+
+li {
+    font-family: 'Arial';
+
+    font-size: 14px;
+}
+
+p {
+    font-family: 'Arial';
+    text-align: center;
+    color: #F6FEFE;
+    font-size: 15px;
+}
+
+span {
+    color: #203879;
+}
+
+label {
+    font-family: 'Arial';
+    color: #fff;
+    font-size: 15px;
+}
+
+.left-container {
+    height: 100vh;
+    background-color: #D7E9FF;
+}
+
+.leftContHeader {
+    color: #203879;
+}
+
+.leftContainerSentences {
+    height: 50%;
+}
+
+.right-container {
+    height: 100vh;
+    background-color: #203879;
+}
+
+.noSentences {
+    color: #FE5B16;
+}
+
+.sentences-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sentence-item {
+    font-size: 14px;
+    margin: 10px 0;
+    background-color: #FFFFFF;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease;
+}
+
+.sentence-item:hover {
+    background-color: #d9dde2;
+}
+
+.word-form {
+    margin-top: 8em;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.form-label {
+    font-size: 15px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.select-box {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn {
+    display: block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #FE5B16;
+    color: #FFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn:disabled {
+    background-color: #e26e40;
+    cursor: not-allowed;
+}
+
+.add-btn {
+    background-color: #FE5B16;
+}
+
+.add-btn:hover {
+    color: #fff;
+    background-color: #e26e40
+}
+
+.clear-btn {
+    background-color: #FE5B16;
+}
+
+.clear-btn:hover {
+    color: #fff;
+    background-color: #e26e40
+}
+
+.submit-btn {
+    background-color: #FE5B16;
+}
+
+.submit-btn:hover {
+    color: #fff;
+    background-color: #e26e40
+}
+
+.scrollable-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.scrollable-list::-webkit-scrollbar {
+    width: 10px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.spinner-border {
+    color: #e26e40;
+    width: 6rem;
+    height: 6rem;
+}
+
+.content-behind-overlay {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.overlay.active + .content-behind-overlay {
+    opacity: 0;
+}

@@ -56,7 +56,7 @@ export class SentencesComponent implements OnInit {
         this.submittedSentences = response.body.recordset
       },
       error: (err: ErrorEvent) => {
-        this.toastr.showError('Could not submit sentences');
+        this.toastr.showError('Could not load submitted sentences');
       },
       complete: () => {
         return;
@@ -105,6 +105,9 @@ export class SentencesComponent implements OnInit {
 
     this.subscription = this.sentenceService.submitSentence(this.sentence).subscribe({
       next: (response: any) => {
+        this.toastr.showSuccess('Successfully saved new sentence');
+        this.sentence = '';   
+        this.wordForm.get('word')?.setValue('');
         this.loadSubmittedSentences();
       },
       error: (err: ErrorEvent) => {

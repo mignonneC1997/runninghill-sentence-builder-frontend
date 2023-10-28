@@ -9,9 +9,7 @@ export class ToasterService {
   constructor(private toastr: ToastrService) { }
 
   showSuccess(msg:any) {
-    this.toastr.success(msg, 'Success', {
-      positionClass: 'toast-top-left'
-    });
+    this.toastr.success(msg, 'Success');
   }
 
   showError(msg:any) {
@@ -23,6 +21,6 @@ export class ToasterService {
   }
 
   showResponse(msg:any, response:any) {
-    this.toastr.warning(msg, response);
+    this.toastr.info(msg, response);
   }
 }

@@ -23,10 +23,11 @@ import { ToastrModule } from 'ngx-toastr';
     HttpClientModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
-      timeOut: 3000,
-      positionClass: 'toast-top-right',
+      closeButton: false,
+      positionClass: 'toast-top-left',
       preventDuplicates: true,
-    })
+      timeOut: 4000
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

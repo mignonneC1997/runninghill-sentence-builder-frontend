@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div [ngClass]="{ 'container-fluid':true, 'content-behind-overlay': loading}">
     <div class="row">
         <!-- LEFT CONTAINER -->
         <div class="col-md-6 left-container">
@@ -74,3 +74,12 @@
         </div>
     </div>
 </div>
+
+<!-- LOADING SPINNER -->
+<div [ngClass]="{ 'overlay': loading, 'noOverlay': !loading}">
+    <div *ngIf="loading" class="loading-spinner">
+        <div class="spinner-border" role="status">
+        </div>
+    </div>
+</div>
+

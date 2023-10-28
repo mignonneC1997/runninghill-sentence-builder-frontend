@@ -1,27 +1,25 @@
-.homePage {
-    background-color: #F0EFEA;
+.left-container {
+    background-color: #D7E9FF;
 }
 
-.submitted-sentences {
-    margin-top: 2em;
-    text-align: center;
-    background-color: #3AAFA8;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
+.leftContHeader {
+    color: #203879;
+}
+
+.right-container {
+    background-color: #203879;
 }
 
 h5 {
     font-family: 'Arial';
-    color: #17242A;
+    color: #F6FEFE;
     font-weight: 600;
 }
 
 li {
     font-family: 'Arial';
+
+    font-size: 14px;
 }
 
 p {
@@ -32,7 +30,7 @@ p {
 }
 
 span {
-    color: #17242A;
+    color: #203879;
 }
 
 label {
@@ -47,9 +45,9 @@ label {
 }
 
 .sentence-item {
-    font-size: 12px;
+    font-size: 14px;
     margin: 10px 0;
-    background-color: #F6FEFE;
+    background-color: #FFFFFF;
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -57,18 +55,16 @@ label {
 }
 
 .sentence-item:hover {
-    background-color: #cdd8d8;
+    background-color: #d9dde2;
 }
 
 .word-form {
-    margin-top: 2em;
+    margin-top: 8em;
     max-width: 400px;
     margin-left: auto;
     margin-right: auto;
     padding: 20px;
-    background-color: #3AAFA8;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .form-label {
@@ -89,8 +85,8 @@ label {
     display: block;
     margin-top: 10px;
     padding: 10px 15px;
-    background-color: #2C7A77;
-    color: #DEF2F2;
+    background-color: #FE5B16;
+    color: #FFF;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -98,35 +94,35 @@ label {
 }
 
 .btn:disabled {
-    background-color: #2b7a78;
+    background-color: #e26e40;
     cursor: not-allowed;
 }
 
 .add-btn {
-    background-color: #1c4a48;
+    background-color: #FE5B16;
 }
 
 .add-btn:hover {
-    color: #1c4a48;
-    background-color: #DEF2F2
+    color: #fff;
+    background-color: #e26e40
 }
 
 .clear-btn {
-    background-color: #1c4a48;
+    background-color: #FE5B16;
 }
 
 .clear-btn:hover {
-    color: #1c4a48;
-    background-color: #DEF2F2
+    color: #fff;
+    background-color: #e26e40
 }
 
 .submit-btn {
-    background-color: #1c4a48;
+    background-color: #FE5B16;
 }
 
 .submit-btn:hover {
-    color: #1c4a48;
-    background-color: #DEF2F2
+    color: #fff;
+    background-color: #e26e40
 }
 
 .scrollable-list {

@@ -4,6 +4,7 @@ import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/htt
 import { catchError, map, timeout } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 
+import { HttpHeaderService } from './http-header.service';
 import { responsetimeout } from '../../assets/config'
 import { environment } from './../../environments/environment'
 
@@ -12,11 +13,11 @@ import { environment } from './../../environments/environment'
 })
 export class SentencesService {
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private httpHeaderService: HttpHeaderService) {}
 
   public getWordTypes = (): Observable<any> => { // get word types
     return this.httpClient.get<any>(environment.apiUrl + '/wordTypes',
-    { observe: 'response' }).pipe(
+    { observe: 'response', headers: this.httpHeaderService.getHTTPHeaders() }).pipe(
       timeout(responsetimeout),
         map((response: HttpResponse<any>) => {
           return response;
@@ -28,7 +29,7 @@ export class SentencesService {
 
   public getSubmittedSentences = (): Observable<any> => { // get database sentences
     return this.httpClient.get<any>(environment.apiUrl + '/sentences',
-    { observe: 'response' }).pipe(
+    { observe: 'response', headers: this.httpHeaderService.getHTTPHeaders() }).pipe(
       timeout(responsetimeout),
         map((response: HttpResponse<any>) => {
           return response;
@@ -43,7 +44,7 @@ export class SentencesService {
       type: data
     }
     return this.httpClient.get<any>(environment.apiUrl + '/getByWordType',
-    { params: type, observe: 'response' }).pipe(
+    { params: type, observe: 'response', headers: this.httpHeaderService.getHTTPHeaders() }).pipe(
       timeout(responsetimeout),
         map((response: HttpResponse<any>) => {
           return response;
@@ -55,7 +56,7 @@ export class SentencesService {
 
   public submitSentence = (sentence: any): Observable<any> => {  // save new sentence
     return this.httpClient.post<any>(environment.apiUrl + '/sentences',
-      { params: sentence, observe: 'response' }).pipe(
+      { params: sentence, observe: 'response', headers: this.httpHeaderService.getHTTPHeaders() }).pipe(
       timeout(responsetimeout),
         map((response: HttpResponse<any>) => {
           return response;

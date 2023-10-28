@@ -9,11 +9,12 @@ import { responsetimeout } from '../../assets/config'
 })
 export class SentencesService {
 
-  constructor(private httpClient: HttpClient, ) {}
+  constructor(private httpClient: HttpClient) {}
 
   public getWordTypes = (): Observable<any> => {
     return this.httpClient.get<any>(environment.apiUrl + '/wordTypes',
     { observe: 'response' }).pipe(
+      timeout(responsetimeout),
         map((response: HttpResponse<any>) => {
           return response;
         }), catchError((error: HttpErrorResponse) => {
@@ -23,7 +24,6 @@ export class SentencesService {
   }
 
   public getSubmittedSentences = (): Observable<any> => {
-    console.log('test');
     return this.httpClient.get<any>(environment.apiUrl + '/sentences',
     { observe: 'response' }).pipe(
       timeout(responsetimeout),

@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { environment } from './../../environments/environment'
+
 import { catchError, map, timeout } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
+
 import { responsetimeout } from '../../assets/config'
+import { environment } from './../../environments/environment'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +14,7 @@ export class SentencesService {
 
   constructor(private httpClient: HttpClient) {}
 
-  public getWordTypes = (): Observable<any> => {
+  public getWordTypes = (): Observable<any> => { // get word types
     return this.httpClient.get<any>(environment.apiUrl + '/wordTypes',
     { observe: 'response' }).pipe(
       timeout(responsetimeout),
@@ -23,7 +26,7 @@ export class SentencesService {
       );
   }
 
-  public getSubmittedSentences = (): Observable<any> => {
+  public getSubmittedSentences = (): Observable<any> => { // get database sentences
     return this.httpClient.get<any>(environment.apiUrl + '/sentences',
     { observe: 'response' }).pipe(
       timeout(responsetimeout),
@@ -35,7 +38,7 @@ export class SentencesService {
       );
   }
 
-  public getWordsByWordType = (data: any): Observable<any> => {
+  public getWordsByWordType = (data: any): Observable<any> => { // get words based on word type
     const type = {
       type: data
     }
@@ -50,7 +53,7 @@ export class SentencesService {
       );
   }
 
-  public submitSentence = (sentence: any): Observable<any> => {
+  public submitSentence = (sentence: any): Observable<any> => {  // save new sentence
     return this.httpClient.post<any>(environment.apiUrl + '/sentences',
       { params: sentence, observe: 'response' }).pipe(
       timeout(responsetimeout),
@@ -61,5 +64,4 @@ export class SentencesService {
         })
       );
   }
-
 }

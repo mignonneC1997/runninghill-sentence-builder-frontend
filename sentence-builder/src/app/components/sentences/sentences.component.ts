@@ -42,6 +42,7 @@ export class SentencesComponent implements OnInit {
         this.wordTypes = response.body.response
       },
       error: (err: ErrorEvent) => {
+        this.toastr.showError('Could not load word types ');
       },
       complete: () => {
         return;
@@ -55,6 +56,7 @@ export class SentencesComponent implements OnInit {
         this.submittedSentences = response.body.recordset
       },
       error: (err: ErrorEvent) => {
+        this.toastr.showError('Could not submit sentences');
       },
       complete: () => {
         return;
@@ -65,8 +67,20 @@ export class SentencesComponent implements OnInit {
   public selectWordType = () => {
     this.selectedWordType = this.wordForm.get('wordType')?.value;
     if (this.selectedWordType) {
-      this.subscription = this.sentenceService.getWordsByWordType(this.selectedWordType).subscribe((words: any) => {
-        this.wordList = words.body.recordset;
+      // this.subscription = this.sentenceService.getWordsByWordType(this.selectedWordType).subscribe((words: any) => {
+      //   this.wordList = words.body.recordset;
+      // });
+
+      this.subscription = this.sentenceService.getWordsByWordType(this.selectedWordType).subscribe({
+        next: (words: any) => {
+          this.wordList = words.body.recordset;
+        },
+        error: (err: ErrorEvent) => {
+          this.toastr.showError('Could not load word types');
+        },
+        complete: () => {
+          return;
+        }
       });
     }
   }
@@ -88,13 +102,26 @@ export class SentencesComponent implements OnInit {
   }
 
   public submitSentence = () => {
-    this.subscription = this.sentenceService.submitSentence(this.sentence).subscribe(
-      (response) => {
+
+    this.subscription = this.sentenceService.submitSentence(this.sentence).subscribe({
+      next: (response: any) => {
         this.loadSubmittedSentences();
       },
-      (error) => {
+      error: (err: ErrorEvent) => {
+        this.toastr.showError('Could not submit new sentences');
+      },
+      complete: () => {
+        return;
       }
-    );
+    });
+    // this.subscription = this.sentenceService.submitSentence(this.sentence).subscribe(
+    //   (response) => {
+    //     this.loadSubmittedSentences();
+    //   },
+    //   (error) => {
+    //     this.toastr.showError('Could not load sentences. ');
+    //   }
+    // );
   }
 
   public clearSentence = () => {

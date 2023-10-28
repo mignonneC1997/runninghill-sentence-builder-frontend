@@ -1,12 +1,28 @@
 import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ToasterService {
-  showError(arg0: string) {
-    throw new Error('Method not implemented.');
+
+  constructor(private toastr: ToastrService) { }
+
+  showSuccess(msg:any) {
+    this.toastr.success(msg, 'Success', {
+      positionClass: 'toast-top-left'
+    });
   }
 
-  constructor() { }
+  showError(msg:any) {
+    this.toastr.error(msg, 'Error');
+  }
+
+  showWarning(msg:any) {
+    this.toastr.warning(msg, 'Warning');
+  }
+
+  showResponse(msg:any, response:any) {
+    this.toastr.warning(msg, response);
+  }
 }

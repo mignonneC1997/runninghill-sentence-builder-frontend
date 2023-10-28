@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ReplaySubject, takeUntil } from 'rxjs';
-import { LoggingService } from 'src/app/services/logging.service';
 
-import { ToasterService } from 'src/app/services/toaster.service';
+import { LoggingService } from 'src/app/services/logging.service';
 import { SentencesService } from '../../services/sentences.service';
+import { ToasterService } from 'src/app/services/toaster.service';
 
 @Component({
   selector: 'app-sentences',
@@ -39,6 +39,7 @@ export class SentencesComponent implements OnInit, OnDestroy {
       word: [ '', Validators.required],
     });
   }
+
   public loadWordTypes = () => {
     try {
       this.loading = true;

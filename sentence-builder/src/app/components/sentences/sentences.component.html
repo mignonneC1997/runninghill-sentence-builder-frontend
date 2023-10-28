@@ -2,12 +2,13 @@
     <div class="row">
         <!-- LEFT CONTAINER -->
         <div class="col-md-6 left-container">
-            <div class="d-flex flex-column align-items-center justify-content-center h-100 mt-sm-2 mt-2 mb-sm-5 mb-5">
+            <h1 class="text-center mt-4 leftContHeader mb-0 pb-0">Runninghill Sentence Builder</h1>
+            <div class="d-flex flex-column align-items-center justify-content-center leftContainerSentences mt-5">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="submitted-sentences">
                             <!-- SUBMITTED SENTENCES -->
-                            <h5 class="text-center pb-4 leftContHeader">Previously Submitted Sentences</h5>
+                            <h5 class="text-center pb-4 leftContHeader pt-0 mt-0">Previously Submitted Sentences</h5>
                             <p *ngIf="submittedSentences.length === 0" class="text-center noSentences">No submitted sentences</p>
                             <ul *ngIf="submittedSentences" class="sentences-list" [ngClass]="{'scrollable-list': submittedSentences.length > 4}">
                                 <li *ngFor="let sentence of submittedSentences" class="sentence-item">
@@ -82,4 +83,3 @@
         </div>
     </div>
 </div>
-

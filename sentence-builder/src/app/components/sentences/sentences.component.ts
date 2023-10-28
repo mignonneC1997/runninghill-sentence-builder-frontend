@@ -11,9 +11,9 @@ import { SentencesService } from '../../services/sentences.service';
 })
 export class SentencesComponent implements OnInit {
   private destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
-  public subscription: Subscription | undefined;
+  public subscription!: Subscription;
   public wordTypes: any = null;
-  public wordForm: FormGroup | undefined;
+  public wordForm!: FormGroup;
   public selectedWordType = '';
   public selectedWord  = '';
   public submittedSentences: any = [];
@@ -24,5 +24,88 @@ export class SentencesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.buildForm();
+    this.loadWordTypes();
+    this.loadSubmittedSentences();
+  }
+
+  buildForm() {
+    this.wordForm = this.fb.group({
+      wordType: ['', Validators.required],
+      word: [ '', Validators.required],
+    });
+  }
+
+  public loadWordTypes = () => {
+    this.sentenceService.getWordTypes().subscribe({
+      next: (response) => {
+        this.wordTypes = response.body.response
+      },
+      error: (err: ErrorEvent) => {
+      },
+      complete: () => {
+        return;
+      }
+    });
+  }
+
+  public loadSubmittedSentences = () => {
+    this.sentenceService.getSubmittedSentences().subscribe({
+      next: (response) => {
+        this.submittedSentences = response.body.recordset
+      },
+      error: (err: ErrorEvent) => {
+      },
+      complete: () => {
+        return;
+      }
+    });
+  }
+
+  public selectWordType = () => {
+    this.selectedWordType = this.wordForm.get('wordType')?.value;
+    if (this.selectedWordType) {
+      this.subscription = this.sentenceService.getWordsByWordType(this.selectedWordType).subscribe((words: any) => {
+        this.wordList = words.body.recordset;
+      });
+    }
+  }
+
+  public selectWord = (): void => {
+    this.selectedWord = this.wordForm.get('word')?.value;
+  }
+
+  public addToSentence = () => {
+    const selectedWord = this.wordForm.get('word')?.value;
+
+    if (selectedWord) {
+      // Append the selected word to the sentence with a space
+      this.sentence += selectedWord + ' ';
+      
+      // Clear the selected word from the form
+      this.wordForm.get('word')?.setValue('');
+    }
+  }
+
+  public submitSentence = () => {
+    this.subscription = this.sentenceService.submitSentence(this.sentence).subscribe(
+      (response) => {
+        this.loadSubmittedSentences();
+      },
+      (error) => {
+      }
+    );
+  }
+
+  public clearSentence = () => {
+    this.sentence = '';   
+    this.wordForm.get('word')?.setValue('');
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe from the observable to prevent memory leaks
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

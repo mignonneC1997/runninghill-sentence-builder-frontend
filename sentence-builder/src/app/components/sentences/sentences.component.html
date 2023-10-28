@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div [ngClass]="{ 'container-fluid':true, 'content-behind-overlay': loading}">
     <div class="row">
         <!-- LEFT CONTAINER -->
         <div class="col-md-6 left-container">
@@ -8,7 +8,7 @@
                         <div class="submitted-sentences">
                             <!-- SUBMITTED SENTENCES -->
                             <h5 class="text-center pb-4 leftContHeader">Previously Submitted Sentences</h5>
-                            <p *ngIf="!submittedSentences" class="text-center text-muted">No submitted sentences</p>
+                            <p *ngIf="submittedSentences.length === 0" class="text-center noSentences">No submitted sentences</p>
                             <ul *ngIf="submittedSentences" class="sentences-list" [ngClass]="{'scrollable-list': submittedSentences.length > 4}">
                                 <li *ngFor="let sentence of submittedSentences" class="sentence-item">
                                 <span class="badge badge-primary mr-2">{{ sentence.word }}</span>
@@ -74,3 +74,12 @@
         </div>
     </div>
 </div>
+
+<!-- LOADING SPINNER -->
+<div [ngClass]="{ 'overlay': loading, 'noOverlay': !loading}">
+    <div *ngIf="loading" class="loading-spinner">
+        <div class="spinner-border" role="status">
+        </div>
+    </div>
+</div>
+

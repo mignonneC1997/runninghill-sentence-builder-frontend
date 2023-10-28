@@ -1,6 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ReplaySubject, Subscription, takeUntil } from 'rxjs';
+
+import { ReplaySubject, takeUntil } from 'rxjs';
+import { LoggingService } from 'src/app/services/logging.service';
+
 import { ToasterService } from 'src/app/services/toaster.service';
 import { SentencesService } from '../../services/sentences.service';
 
@@ -9,18 +12,19 @@ import { SentencesService } from '../../services/sentences.service';
   templateUrl: './sentences.component.html',
   styleUrls: ['./sentences.component.css']
 })
-export class SentencesComponent implements OnInit {
+export class SentencesComponent implements OnInit, OnDestroy {
   private destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
-  public subscription!: Subscription;
   public wordTypes: any = null;
   public wordForm!: FormGroup;
   public selectedWordType = '';
   public selectedWord  = '';
   public submittedSentences: any = [];
   public wordList: any = [];
-  sentence: string = '';
+  public sentence: string = '';
+  public loading = false;
 
-  constructor(private fb: FormBuilder, private sentenceService: SentencesService, public toastr: ToasterService) {
+  constructor(private fb: FormBuilder, private sentenceService: SentencesService, public toastr: ToasterService,
+    private logService: LoggingService) {
   }
 
   ngOnInit(): void {
@@ -29,45 +33,94 @@ export class SentencesComponent implements OnInit {
     this.loadSubmittedSentences();
   }
 
-  buildForm() {
+  public buildForm = () => {
     this.wordForm = this.fb.group({
       wordType: ['', Validators.required],
       word: [ '', Validators.required],
     });
   }
-
   public loadWordTypes = () => {
-    this.sentenceService.getWordTypes().subscribe({
-      next: (response) => {
-        this.wordTypes = response.body.response
-      },
-      error: (err: ErrorEvent) => {
-      },
-      complete: () => {
-        return;
-      }
-    });
+    try {
+      this.loading = true;
+      this.sentenceService.getWordTypes().pipe(takeUntil(this.destroy$)).subscribe({
+        next: (response) => {
+          if (response && response.body && response.body.response && response.body.response.length > 0) {
+            this.wordTypes = response.body.response
+          } else {
+            this.wordTypes = null
+          }
+        },
+        error: (err: ErrorEvent) => {
+          this.loading = false;
+          this.toastr.showError('Could not load word types ');
+          this.logService.frontendLogging(4, `ERROR - loadWordTypes MESSAGE - ${JSON.stringify(err.message)}`);
+        },
+        complete: () => {
+          this.loading = false;
+          return;
+        }
+      });
+    } catch (error: any) {
+      this.loading = false;
+      this.logService.frontendLogging(4, `ERROR - loadWordTypes TRY/CATCH MESSAGE - ${JSON.stringify(error.message)}`);
+    }
   }
 
   public loadSubmittedSentences = () => {
-    this.sentenceService.getSubmittedSentences().subscribe({
-      next: (response) => {
-        this.submittedSentences = response.body.recordset
-      },
-      error: (err: ErrorEvent) => {
-      },
-      complete: () => {
-        return;
-      }
-    });
+    try {
+      this.loading = true;
+      this.sentenceService.getSubmittedSentences().pipe(takeUntil(this.destroy$)).subscribe({
+        next: (response) => {
+          if (response && response.body && response.body.recordset && response.body.recordset.length > 0) {
+            this.submittedSentences = response.body.recordset
+          } else {
+            this.submittedSentences = [];
+          }
+        },
+        error: (err: ErrorEvent) => {
+          this.loading = false;
+          this.toastr.showError('Could not load submitted sentences');
+          this.logService.frontendLogging(4, `ERROR - loadSubmittedSentences MESSAGE - ${JSON.stringify(err.message)}`);
+        },
+        complete: () => {
+          this.loading = false;
+          return;
+        }
+      });
+    } catch (error: any) {
+      this.loading = false;
+      this.logService.frontendLogging(4, `ERROR - loadSubmittedSentences TRY/CATCH MESSAGE - ${JSON.stringify(error.message)}`);
+
+    }
   }
 
   public selectWordType = () => {
-    this.selectedWordType = this.wordForm.get('wordType')?.value;
-    if (this.selectedWordType) {
-      this.subscription = this.sentenceService.getWordsByWordType(this.selectedWordType).subscribe((words: any) => {
-        this.wordList = words.body.recordset;
-      });
+    try {
+      this.loading = true;
+      this.selectedWordType = this.wordForm.get('wordType')?.value;
+      if (this.selectedWordType) {
+        this.sentenceService.getWordsByWordType(this.selectedWordType).pipe(takeUntil(this.destroy$)).subscribe({
+          next: (words: any) => {
+            if (words && words.body && words.body.recordset && words.body.recordset.length > 0) {
+              this.wordList = words.body.recordset
+            } else {
+              this.wordList = [];
+            }
+          },
+          error: (err: ErrorEvent) => {
+            this.loading = false;
+            this.toastr.showError('Could not load word types');
+            this.logService.frontendLogging(4, `ERROR - selectWordType MESSAGE - ${JSON.stringify(err.message)}`);
+          },
+          complete: () => {
+            this.loading = false;
+            return;
+          }
+        });
+      }
+    } catch (error: any) {
+      this.loading = false;
+      this.logService.frontendLogging(4, `ERROR - selectWordType TRY/CATCH MESSAGE - ${JSON.stringify(error.message)}`);
     }
   }
 
@@ -88,13 +141,30 @@ export class SentencesComponent implements OnInit {
   }
 
   public submitSentence = () => {
-    this.subscription = this.sentenceService.submitSentence(this.sentence).subscribe(
-      (response) => {
-        this.loadSubmittedSentences();
-      },
-      (error) => {
-      }
-    );
+    try {
+      this.loading = true;
+      this.sentenceService.submitSentence(this.sentence).pipe(takeUntil(this.destroy$)).subscribe({
+        next: (response: any) => {
+          this.toastr.showSuccess('Successfully saved new sentence');
+          this.sentence = '';   
+          this.wordForm.get('word')?.setValue('');
+          this.loadSubmittedSentences();
+        },
+        error: (err: ErrorEvent) => {
+          this.loading = false;
+          this.toastr.showError('Could not submit new sentences');
+          this.logService.frontendLogging(4, `ERROR - submitSentence MESSAGE - ${JSON.stringify(err.message)}`);
+
+        },
+        complete: () => {
+          this.loading = false;
+          return;
+        }
+      });
+    } catch (error: any) {
+      this.loading = false;
+      this.logService.frontendLogging(4, `ERROR - submitSentence TRY/CATCH MESSAGE - ${JSON.stringify(error.message)}`);
+    }
   }
 
   public clearSentence = () => {
@@ -104,8 +174,7 @@ export class SentencesComponent implements OnInit {
 
   ngOnDestroy() {
     // Unsubscribe from the observable to prevent memory leaks
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 }

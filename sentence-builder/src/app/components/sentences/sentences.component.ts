@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ReplaySubject, Subscription, takeUntil } from 'rxjs';
+import { LoggingService } from 'src/app/services/logging.service';
 
 import { ToasterService } from 'src/app/services/toaster.service';
 import { SentencesService } from '../../services/sentences.service';
@@ -21,7 +22,8 @@ export class SentencesComponent implements OnInit, OnDestroy {
   public wordList: any = [];
   public sentence: string = '';
 
-  constructor(private fb: FormBuilder, private sentenceService: SentencesService, public toastr: ToasterService) {
+  constructor(private fb: FormBuilder, private sentenceService: SentencesService, public toastr: ToasterService,
+    private logService: LoggingService) {
   }
 
   ngOnInit(): void {
@@ -49,13 +51,14 @@ export class SentencesComponent implements OnInit, OnDestroy {
         },
         error: (err: ErrorEvent) => {
           this.toastr.showError('Could not load word types ');
+          this.logService.frontendLogging(4, `ERROR - loadWordTypes MESSAGE - ${JSON.stringify(err.message)}`);
         },
         complete: () => {
           return;
         }
       });
     } catch (error: any) {
-      console.log("Major, Error loadWordTypes === ", error.message)
+      this.logService.frontendLogging(4, `ERROR - loadWordTypes TRY/CATCH MESSAGE - ${JSON.stringify(error.message)}`);
     }
   }
 
@@ -71,13 +74,15 @@ export class SentencesComponent implements OnInit, OnDestroy {
         },
         error: (err: ErrorEvent) => {
           this.toastr.showError('Could not load submitted sentences');
+          this.logService.frontendLogging(4, `ERROR - loadSubmittedSentences MESSAGE - ${JSON.stringify(err.message)}`);
         },
         complete: () => {
           return;
         }
       });
     } catch (error: any) {
-      console.log("Major, Error loadSubmittedSentences === ", error.message)
+      this.logService.frontendLogging(4, `ERROR - loadSubmittedSentences TRY/CATCH MESSAGE - ${JSON.stringify(error.message)}`);
+
     }
   }
 
@@ -95,6 +100,7 @@ export class SentencesComponent implements OnInit, OnDestroy {
           },
           error: (err: ErrorEvent) => {
             this.toastr.showError('Could not load word types');
+            this.logService.frontendLogging(4, `ERROR - selectWordType MESSAGE - ${JSON.stringify(err.message)}`);
           },
           complete: () => {
             return;
@@ -102,7 +108,7 @@ export class SentencesComponent implements OnInit, OnDestroy {
         });
       }
     } catch (error: any) {
-      console.log("Major, Error selectWordType === ", error.message)
+      this.logService.frontendLogging(4, `ERROR - selectWordType TRY/CATCH MESSAGE - ${JSON.stringify(error.message)}`);
     }
   }
 
@@ -133,13 +139,15 @@ export class SentencesComponent implements OnInit, OnDestroy {
         },
         error: (err: ErrorEvent) => {
           this.toastr.showError('Could not submit new sentences');
+          this.logService.frontendLogging(4, `ERROR - submitSentence MESSAGE - ${JSON.stringify(err.message)}`);
+
         },
         complete: () => {
           return;
         }
       });
     } catch (error: any) {
-      console.log("Major, Error submitSentence === ", error.message)
+      this.logService.frontendLogging(4, `ERROR - submitSentence TRY/CATCH MESSAGE - ${JSON.stringify(error.message)}`);
     }
   }
 

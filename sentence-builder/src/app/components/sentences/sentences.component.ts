@@ -9,7 +9,7 @@ import { SentencesService } from '../../services/sentences.service';
   templateUrl: './sentences.component.html',
   styleUrls: ['./sentences.component.css']
 })
-export class SentencesComponent implements OnInit {
+export class SentencesComponent implements OnInit, OnDestroy {
   private destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
   public subscription!: Subscription;
   public wordTypes: any = null;
@@ -37,7 +37,7 @@ export class SentencesComponent implements OnInit {
   }
 
   public loadWordTypes = () => {
-    this.sentenceService.getWordTypes().subscribe({
+    this.sentenceService.getWordTypes().pipe(takeUntil(this.destroy$)).subscribe({
       next: (response) => {
         this.wordTypes = response.body.response
       },
@@ -51,7 +51,7 @@ export class SentencesComponent implements OnInit {
   }
 
   public loadSubmittedSentences = () => {
-    this.sentenceService.getSubmittedSentences().subscribe({
+    this.sentenceService.getSubmittedSentences().pipe(takeUntil(this.destroy$)).subscribe({
       next: (response) => {
         this.submittedSentences = response.body.recordset
       },
@@ -67,11 +67,7 @@ export class SentencesComponent implements OnInit {
   public selectWordType = () => {
     this.selectedWordType = this.wordForm.get('wordType')?.value;
     if (this.selectedWordType) {
-      // this.subscription = this.sentenceService.getWordsByWordType(this.selectedWordType).subscribe((words: any) => {
-      //   this.wordList = words.body.recordset;
-      // });
-
-      this.subscription = this.sentenceService.getWordsByWordType(this.selectedWordType).subscribe({
+      this.sentenceService.getWordsByWordType(this.selectedWordType).pipe(takeUntil(this.destroy$)).subscribe({
         next: (words: any) => {
           this.wordList = words.body.recordset;
         },
@@ -102,8 +98,7 @@ export class SentencesComponent implements OnInit {
   }
 
   public submitSentence = () => {
-
-    this.subscription = this.sentenceService.submitSentence(this.sentence).subscribe({
+    this.sentenceService.submitSentence(this.sentence).pipe(takeUntil(this.destroy$)).subscribe({
       next: (response: any) => {
         this.toastr.showSuccess('Successfully saved new sentence');
         this.sentence = '';   
@@ -117,14 +112,6 @@ export class SentencesComponent implements OnInit {
         return;
       }
     });
-    // this.subscription = this.sentenceService.submitSentence(this.sentence).subscribe(
-    //   (response) => {
-    //     this.loadSubmittedSentences();
-    //   },
-    //   (error) => {
-    //     this.toastr.showError('Could not load sentences. ');
-    //   }
-    // );
   }
 
   public clearSentence = () => {
@@ -134,8 +121,7 @@ export class SentencesComponent implements OnInit {
 
   ngOnDestroy() {
     // Unsubscribe from the observable to prevent memory leaks
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 }

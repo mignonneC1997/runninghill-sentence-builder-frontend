@@ -4,9 +4,9 @@ import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/htt
 import { catchError, map, timeout } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 
-import { HttpHeaderService } from './http-header.service';
 import { responsetimeout } from '../../assets/config'
 import { environment } from './../../environments/environment'
+import { HttpHeaderService } from './http-header.service';
 
 @Injectable({
   providedIn: 'root'

@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ReplaySubject, takeUntil } from 'rxjs';
-import { LoggingService } from 'src/app/services/logging.service';
 
-import { ToasterService } from 'src/app/services/toaster.service';
+import { LoggingService } from '../../services/logging.service';
 import { SentencesService } from '../../services/sentences.service';
+import { ToasterService } from '../../services/toaster.service';
 
 @Component({
   selector: 'app-sentences',
@@ -14,14 +14,14 @@ import { SentencesService } from '../../services/sentences.service';
 })
 export class SentencesComponent implements OnInit, OnDestroy {
   private destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
-  public wordTypes: any = null;
-  public wordForm!: FormGroup;
+  public loading = false;
+  public submittedSentences: any = [];
   public selectedWordType = '';
   public selectedWord  = '';
-  public submittedSentences: any = [];
-  public wordList: any = [];
   public sentence: string = '';
-  public loading = false;
+  public wordForm!: FormGroup;
+  public wordList: any = [];
+  public wordTypes: any = null;
 
   constructor(private fb: FormBuilder, private sentenceService: SentencesService, public toastr: ToasterService,
     private logService: LoggingService) {
@@ -39,7 +39,8 @@ export class SentencesComponent implements OnInit, OnDestroy {
       word: [ '', Validators.required],
     });
   }
-  public loadWordTypes = () => {
+
+  public loadWordTypes = () => { // get word types
     try {
       this.loading = true;
       this.sentenceService.getWordTypes().pipe(takeUntil(this.destroy$)).subscribe({
@@ -66,7 +67,7 @@ export class SentencesComponent implements OnInit, OnDestroy {
     }
   }
 
-  public loadSubmittedSentences = () => {
+  public loadSubmittedSentences = () => { // retrieve words already in database
     try {
       this.loading = true;
       this.sentenceService.getSubmittedSentences().pipe(takeUntil(this.destroy$)).subscribe({
@@ -79,7 +80,7 @@ export class SentencesComponent implements OnInit, OnDestroy {
         },
         error: (err: ErrorEvent) => {
           this.loading = false;
-          this.toastr.showError('Could not load submitted sentences');
+          this.toastr.showError('Could not load previous sentences');
           this.logService.frontendLogging(4, `ERROR - loadSubmittedSentences MESSAGE - ${JSON.stringify(err.message)}`);
         },
         complete: () => {
@@ -94,7 +95,7 @@ export class SentencesComponent implements OnInit, OnDestroy {
     }
   }
 
-  public selectWordType = () => {
+  public selectWordType = () => { // get word based on word type
     try {
       this.loading = true;
       this.selectedWordType = this.wordForm.get('wordType')?.value;
@@ -109,7 +110,7 @@ export class SentencesComponent implements OnInit, OnDestroy {
           },
           error: (err: ErrorEvent) => {
             this.loading = false;
-            this.toastr.showError('Could not load word types');
+            this.toastr.showError('Could not load words');
             this.logService.frontendLogging(4, `ERROR - selectWordType MESSAGE - ${JSON.stringify(err.message)}`);
           },
           complete: () => {
@@ -140,7 +141,7 @@ export class SentencesComponent implements OnInit, OnDestroy {
     }
   }
 
-  public submitSentence = () => {
+  public submitSentence = () => { // save new sentence
     try {
       this.loading = true;
       this.sentenceService.submitSentence(this.sentence).pipe(takeUntil(this.destroy$)).subscribe({
@@ -173,7 +174,7 @@ export class SentencesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // Unsubscribe from the observable to prevent memory leaks
+    // Unsubscribe to prevent memory leaks
     this.destroy$.next(true);
     this.destroy$.complete();
   }

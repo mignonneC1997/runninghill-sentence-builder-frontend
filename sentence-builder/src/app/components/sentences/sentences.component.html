@@ -8,7 +8,7 @@
                         <div class="submitted-sentences">
                             <!-- SUBMITTED SENTENCES -->
                             <h5 class="text-center pb-4 leftContHeader">Previously Submitted Sentences</h5>
-                            <p *ngIf="!submittedSentences" class="text-center text-muted">No submitted sentences</p>
+                            <p *ngIf="submittedSentences.length === 0" class="text-center noSentences">No submitted sentences</p>
                             <ul *ngIf="submittedSentences" class="sentences-list" [ngClass]="{'scrollable-list': submittedSentences.length > 4}">
                                 <li *ngFor="let sentence of submittedSentences" class="sentence-item">
                                 <span class="badge badge-primary mr-2">{{ sentence.word }}</span>

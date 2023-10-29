@@ -73,7 +73,7 @@ export class SentencesComponent implements OnInit, OnDestroy {
       this.sentenceService.getSubmittedSentences().pipe(takeUntil(this.destroy$)).subscribe({
         next: (response) => {
           if (response && response.body && response.body.recordset && response.body.recordset.length > 0) {
-            this.submittedSentences = response.body.recordset
+            this.submittedSentences = response.body.recordset;
           } else {
             this.submittedSentences = [];
           }
@@ -149,7 +149,6 @@ export class SentencesComponent implements OnInit, OnDestroy {
           this.toastr.showSuccess('Successfully saved new sentence');
           this.sentence = '';   
           this.wordForm.get('word')?.setValue('');
-          this.loadSubmittedSentences();
         },
         error: (err: ErrorEvent) => {
           this.loading = false;
@@ -159,6 +158,7 @@ export class SentencesComponent implements OnInit, OnDestroy {
         },
         complete: () => {
           this.loading = false;
+          this.loadSubmittedSentences();
           return;
         }
       });

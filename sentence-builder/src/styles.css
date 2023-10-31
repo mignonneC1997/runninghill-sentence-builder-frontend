@@ -8,15 +8,15 @@
     padding: 1em;
 }
 
-.toast-error {
-    background-color: #FE5B16 !important;
-    background-image: #FE5B16 !important;
+.toast-success{
+    background-color: #203879 !important;
+    background-image: #203879 !important;
     padding: 1em;
 }
 
 .toast-info {
-    background-color: #203879 !important;
-    background-image: #203879 !important;
+    background-color: #FE5B16 !important;
+    background-image: #FE5B16 !important;
     padding: 1em;
 }
 

@@ -9,12 +9,20 @@ export class ToasterService {
 
   constructor(private toastr: ToastrService) { }
 
-  public showSuccess = (msg:any) => {
+  public showBlueSuccess = (msg:any) => {
     this.toastr.success(msg, 'Success');
   }
 
+  public showOrangeSuccess = (msg:any) => {
+    this.toastr.info(msg, 'Success');
+  }
+
   public showError = (msg:any) => {
-    this.toastr.error(msg, 'Error');
+    this.toastr.error(msg, 'Error', {
+      closeButton: false,
+      positionClass: 'toast-top-right',
+      timeOut: 4000
+    });
   }
 
   public showWarning = (msg:any) => {

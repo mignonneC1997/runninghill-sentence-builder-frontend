@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ReplaySubject, takeUntil } from 'rxjs';
@@ -24,7 +24,7 @@ export class SentencesComponent implements OnInit, OnDestroy {
   public wordTypes: any = null;
 
   constructor(private fb: FormBuilder, private sentenceService: SentencesService, public toastr: ToasterService,
-    private logService: LoggingService) {
+    private logService: LoggingService, private el: ElementRef) {
   }
 
   ngOnInit(): void {
@@ -141,12 +141,38 @@ export class SentencesComponent implements OnInit, OnDestroy {
     }
   }
 
+  getHtmlViewPortColour() {
+    const viewportHeight = window.innerHeight;
+    const elementsInView:any = [];
+
+    // Get all elements in the component's view
+    const allElements = this.el.nativeElement.querySelectorAll('*');
+
+    allElements.forEach((element: { getBoundingClientRect: () => any; }) => {
+      const rect = element.getBoundingClientRect();
+
+      // Check if the element is in the viewport
+      if (rect.top >= 0 && rect.bottom <= viewportHeight) {
+        elementsInView.push(element);
+      }
+    });
+
+    if ((elementsInView[0].outerHTML.includes('rightcontainer') || elementsInView[0].outerHTML.includes('form')) && (!elementsInView[0].outerHTML.includes('leftcontainer'))) {
+      this.toastr.showOrangeSuccess('Successfully saved new sentence');  // If right container and mobile view
+    } else {
+      this.toastr.showBlueSuccess('Successfully saved new sentence'); // If left container or web view
+    }
+  }
+  
+
   public submitSentence = () => { // save new sentence
     try {
       this.loading = true;
+      console.log(this.sentence);
       this.sentenceService.submitSentence(this.sentence).pipe(takeUntil(this.destroy$)).subscribe({
         next: (response: any) => {
-          this.toastr.showSuccess('Successfully saved new sentence');
+          this.submittedSentences.push(this.sentence);
+          this.getHtmlViewPortColour();
           this.sentence = '';   
           this.wordForm.get('word')?.setValue('');
         },
